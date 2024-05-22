@@ -1,0 +1,4 @@
+site_name: PlainSimple Todo Docs
+site_url: https://github.com/mateuszczarnuchowskiuek/PlainSimpleTodo.github.io
+theme:
+  name: material
