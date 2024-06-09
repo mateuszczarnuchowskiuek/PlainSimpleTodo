@@ -1,3 +1,1 @@
-# PlainSimple Todo
-
-PlainSimple Todo is a plain and simple todo list app.
+## ⚠️🚧 Site is under construction
