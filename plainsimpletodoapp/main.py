@@ -72,13 +72,28 @@ def main(ui_page: flet.Page):
 
     # ----------
 
+    def CheckboxChaned(e):
+        print(e.control)
+        #We basically look for the matching task and change it's done value
+        for task in taskslists["tasks"]:
+            if task==e.control.data:
+                task["done"] = e.control.value
+
+        #Then we update everything
+        UpdateSaveFile()
+        Update_ui_taskslist()
+        ui_page.update()
+        pass
+
+    # ----------
+
     #This function updates visual representation of tasks to match our current data structure storing tasks
     def Update_ui_taskslist():
         ui_taskslist.controls.clear() #first we clear everything so that we can start from scratch
         
         #Now for each task in our data structure we create a visual element representing that task 
         for i in taskslists["tasks"]:
-            ui_task = flet.FilledTonalButton(content=flet.ListTile(leading=flet.Checkbox(value=i["done"]), title=flet.Text(i["task_name"]), subtitle=flet.Text(ExtractDueDate(i)), trailing=flet.PopupMenuButton(icon=flet.icons.MORE_VERT, items=[flet.PopupMenuItem(icon=flet.icons.EDIT, text="Edit"), flet.PopupMenuItem(icon=flet.icons.DELETE, text="Delete", on_click=DeleteTask, data=i)])))
+            ui_task = flet.FilledTonalButton(content=flet.ListTile(leading=flet.Checkbox(value=i["done"], on_change=CheckboxChaned, data=i), title=flet.Text(i["task_name"]), subtitle=flet.Text(ExtractDueDate(i)), trailing=flet.PopupMenuButton(icon=flet.icons.MORE_VERT, items=[flet.PopupMenuItem(icon=flet.icons.EDIT, text="Edit"), flet.PopupMenuItem(icon=flet.icons.DELETE, text="Delete", on_click=DeleteTask, data=i)])))
             
             ui_taskslist.controls.append(ui_task)
         pass
@@ -112,7 +127,7 @@ def main(ui_page: flet.Page):
     #We try to load the save file
     LoadSaveFile()
 
-    # ---------- CREATING APP LAYOUT: ----------
+    # CREATING APP LAYOUT: ----------
     
     #Creating list view
     ui_taskslist = flet.ListView(expand=1, spacing=16, padding=8, auto_scroll=False)
